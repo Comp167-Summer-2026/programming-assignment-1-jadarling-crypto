@@ -6,14 +6,13 @@ public class TemperatureConverter {
         boolean running = true;
 
         while (running) {
-
             System.out.println("Enter a temperature (or 'stop' to quit)");
             String tempInput = scnr.nextLine().trim();
 
             if (tempInput.equalsIgnoreCase("stop")) {
                 running = false;
             } else {
-                boolean valid = true;
+                boolean validTemp = true;
                 boolean decimalUsed = false;
                 boolean digitFound = false;
                 int start = 0;
@@ -24,43 +23,35 @@ public class TemperatureConverter {
                     char ch = tempInput.charAt(i);
 
                     if (ch == '.') {
-                        if (decimalUsed) valid = false;
+                        if (decimalUsed) validTemp = false;
                         decimalUsed = true;
                     } else if (Character.isDigit(ch)) {
                         digitFound = true;
                     } else {
-                        valid = false;
+                        validTemp = false;
                     }
                 }
 
-                if (!digitFound) valid = false;
+                if (!digitFound) validTemp = false;
 
-                if (!valid) {
+                if (!validTemp) {
                     System.out.println("Invalid input. Please enter a numeric temperature.");
                 } else {
-
                     double temperature = Double.parseDouble(tempInput);
 
-                    boolean validUnit = false;
-                    String unit = "";
+                    System.out.println("Enter unit (C or F):");
+                    String unit = scnr.nextLine().trim();
 
-                    while (!validUnit) {
-                        System.out.println("Enter unit (C or F):");
-                        unit = scnr.nextLine().trim().toUpperCase();
-
-                        if (unit.equals("C") || unit.equals("F")) {
-                            validUnit = true;
+                    if (unit.equalsIgnoreCase("C") || unit.equalsIgnoreCase("F")) {
+                        double result = convertTemperature(temperature, unit);
+                        
+                        if (unit.equalsIgnoreCase("C")) {
+                            System.out.printf("%.2f\u00B0C is equal to %.2f\u00B0F\n", temperature, result);
                         } else {
-                            System.out.println("Invalid unit. Please enter C or F.");
+                            System.out.printf("%.2f\u00B0F is equal to %.2f\u00B0C\n", temperature, result);
                         }
-                    }
-
-                    double result = convertTemperature(temperature, unit);
-
-                    if (unit.equals("C")) {
-                        System.out.printf("%.2f\u00B0C is equal to %.2f\u00B0F\n", temperature, result);
                     } else {
-                        System.out.printf("%.2f\u00B0F is equal to %.2f\u00B0C\n", temperature, result);
+                        System.out.println("Invalid unit. Please enter C or F.");
                     }
                 }
             }
@@ -68,12 +59,12 @@ public class TemperatureConverter {
 
         scnr.close();
     }
+
     public static double convertTemperature(double temperature, String unit) {
-        if (unit.equals("C")) {
+        if (unit.equalsIgnoreCase("C")) {
             return (temperature * 9.0 / 5.0) + 32.0;
         } else {
             return (temperature - 32.0) * 5.0 / 9.0;
         }
     }
 }
-// I went back and tuned some things because I think that I made it a litte too complex and I think this fixes it
