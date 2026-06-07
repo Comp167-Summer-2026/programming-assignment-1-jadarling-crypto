@@ -109,9 +109,8 @@ public class TemperatureConverter {
         }
 
         scnr.close();
-        System.out.println("Goodbye!");
     }
-
+// Im about to start over
     public static double convertTemperature(double temperature, String unit) {
         if (unit.equals("C")) {
             return (temperature * 9.0 / 5.0) + 32;
