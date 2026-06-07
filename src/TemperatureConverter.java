@@ -12,7 +12,6 @@ public class TemperatureConverter {
             if (input.toLowerCase().equals("stop")) {
                 running = false;
             } else {
-
                 String numberPart = "";
                 String leftoverPart = "";
                 int i = 0;
@@ -28,11 +27,45 @@ public class TemperatureConverter {
                 }
 
                 leftoverPart = input.substring(i).trim();
+                
+                boolean isValidNumber = !numberPart.isEmpty() && !numberPart.equals("-");
+                double temperature = 0;
 
-                Scanner lineScanner = new Scanner(numberPart);
+                if (isValidNumber) {
+                    boolean negative = numberPart.charAt(0) == '-';
+                    String digits = negative ? numberPart.substring(1) : numberPart;
+                    double intPart = 0;
+                    double decPart = 0;
+                    double decPlace = 0.1;
+                    boolean inDecimal = false;
+                    boolean hasDigit = false;
 
-                if (lineScanner.hasNextDouble()) {
-                    double temperature = lineScanner.nextDouble();
+                    for (int j = 0; j < digits.length(); j++) {
+                        char ch = digits.charAt(j);
+                        if (ch == '.') {
+                            inDecimal = true;
+                        } else if (Character.isDigit(ch)) {
+                            hasDigit = true;
+                            if (!inDecimal) {
+                                intPart = intPart * 10 + (ch - '0');
+                            } else {
+                                decPart += (ch - '0') * decPlace;
+                                decPlace *= 0.1;
+                            }
+                        } else {
+                            isValidNumber = false;
+                        }   
+                    }
+
+                    if (!hasDigit) isValidNumber = false;
+
+                    if (isValidNumber) {
+                        temperature = intPart + decPart;
+                        if (negative) temperature = -temperature;
+                    }
+                }
+
+                if (isValidNumber) {
                     String unit = "";
 
                     if (!leftoverPart.isEmpty()) {
@@ -72,13 +105,10 @@ public class TemperatureConverter {
                 } else {
                     System.out.println("Invalid input. Please enter a numeric temperature.");
                 }
-
-                lineScanner.close();
             }
         }
 
         scnr.close();
-        System.out.println("Goodbye!");
     }
 
     public static double convertTemperature(double temperature, String unit) {
