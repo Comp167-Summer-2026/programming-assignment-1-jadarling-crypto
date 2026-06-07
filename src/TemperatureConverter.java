@@ -12,15 +12,31 @@ public class TemperatureConverter {
             if (input.toLowerCase().equals("stop")) {
                 running = false;
             } else {
-                Scanner lineScanner = new Scanner(input);
+
+                String numberPart = "";
+                String leftoverPart = "";
+                int i = 0;
+
+                if (i < input.length() && input.charAt(i) == '-') {
+                    numberPart += input.charAt(i);
+                    i++;
+                }
+
+                while (i < input.length() && (Character.isDigit(input.charAt(i)) || input.charAt(i) == '.')) {
+                    numberPart += input.charAt(i);
+                    i++;
+                }
+
+                leftoverPart = input.substring(i).trim();
+
+                Scanner lineScanner = new Scanner(numberPart);
 
                 if (lineScanner.hasNextDouble()) {
                     double temperature = lineScanner.nextDouble();
                     String unit = "";
 
-                    
-                    if (lineScanner.hasNext()) {
-                        unit = lineScanner.next().toUpperCase();
+                    if (!leftoverPart.isEmpty()) {
+                        unit = leftoverPart.toUpperCase();
 
                         if (unit.equals("C") || unit.equals("F")) {
                             double result = convertTemperature(temperature, unit);
@@ -34,7 +50,6 @@ public class TemperatureConverter {
                         }
 
                     } else {
-                        
                         boolean validUnit = false;
                         while (!validUnit) {
                             System.out.println("Enter unit (C or F):");
@@ -63,6 +78,7 @@ public class TemperatureConverter {
         }
 
         scnr.close();
+        System.out.println("Goodbye!");
     }
 
     public static double convertTemperature(double temperature, String unit) {
