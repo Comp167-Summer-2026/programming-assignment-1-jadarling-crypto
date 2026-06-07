@@ -23,10 +23,10 @@ public class TemperatureConverter {
                         double result =  convertTemperature(temperature, unit);
 
                         if(unit.equals("C")){
-                            System.out.printf("%.2f\°c is equal to %.2f\°F%n", temperature, result);
+                            System.out.printf("%.2f\u00B0C is equal to %.2f\u00B0F\n", temperature, result);
 
                         }else{
-                            System.out.printf("%.2f\°F is equal to %.2f\°C%n", temperature, result);
+                            System.out.printf("%.2f\u00B0F is equal to %.2f\u00B0F\n", temperature, result);
                         }
                     }else {
                         System.out.println("Invalid unit Please enter C or F");
