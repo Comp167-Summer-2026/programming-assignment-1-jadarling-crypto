@@ -38,20 +38,25 @@ public class TemperatureConverter {
                     System.out.println("Invalid input. Please enter a numeric temperature.");
                 } else {
                     double temperature = Double.parseDouble(tempInput);
+                    boolean validUnit = false;
+                    String unit = "";
 
-                    System.out.println("Enter unit (C or F):");
-                    String unit = scnr.nextLine().trim();
+                    while (!validUnit) {
+                        System.out.println("Enter unit (C or F):");
+                        unit = scnr.nextLine().trim();
 
-                    if (unit.equalsIgnoreCase("C") || unit.equalsIgnoreCase("F")) {
-                        double result = convertTemperature(temperature, unit);
-                        
-                        if (unit.equalsIgnoreCase("C")) {
-                            System.out.printf("%.2f\u00B0C is equal to %.2f\u00B0F\n", temperature, result);
+                        if (unit.equalsIgnoreCase("C") || unit.equalsIgnoreCase("F")) {
+                            validUnit = true;
                         } else {
-                            System.out.printf("%.2f\u00B0F is equal to %.2f\u00B0C\n", temperature, result);
+                            System.out.println("Invalid unit. Please enter C or F.");
                         }
+                    }
+                    double result = convertTemperature(temperature, unit);
+
+                    if (unit.equalsIgnoreCase("C")) {
+                        System.out.printf("%.2f\u00B0C is equal to %.2f\u00B0F\n", temperature, result);
                     } else {
-                        System.out.println("Invalid unit. Please enter C or F.");
+                        System.out.printf("%.2f\u00B0F is equal to %.2f\u00B0C\n", temperature, result);
                     }
                 }
             }
