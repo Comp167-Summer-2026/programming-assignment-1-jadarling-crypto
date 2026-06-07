@@ -54,7 +54,7 @@ public class TemperatureConverter {
                             }
                         } else {
                             isValidNumber = false;
-                        }   
+                        }
                     }
 
                     if (!hasDigit) isValidNumber = false;
@@ -109,6 +109,7 @@ public class TemperatureConverter {
         }
 
         scnr.close();
+        System.out.println("Goodbye!");
     }
 
     public static double convertTemperature(double temperature, String unit) {
